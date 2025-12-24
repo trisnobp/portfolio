@@ -6,6 +6,7 @@ import ProjectCard from '../components/ProjectCard.astro'
 import Label from '../components/Label.astro'
 import SkillLayout from '../components/SkillLayout.astro'
 import PostPreview from '@/components/blog/PostPreview.astro'
+import Milestone from '@/components/Milestone.astro'
 
 import { Image } from 'astro:assets'
 import astro from '../assets/about-astro.png'
@@ -16,6 +17,23 @@ const languages = ['lorem', 'ipsum']
 const frontend = ['lorem', 'ipsum', 'lorem', 'ipsum', 'lorem', 'ipsum', 'lorem']
 const backend = ['lorem', 'ipsum', 'lorem', 'ipsum']
 const others = ['lorem', 'ipsum', 'lorem', 'ipsum', 'lorem']
+const experiences = [
+        {
+                title: 'Lorem Ipsum',
+                subtitle: 'Sit amet consectetur',
+                period: 'Dec 2022 - Nov 2023',
+                points: [
+                        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut molestiae laboriosam pariatur!',
+                        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!'
+                ]
+        },
+        {
+                title: 'Lorem Ipsum',
+                subtitle: 'Sit amet consectetur',
+                period: 'Dec 2022 - Nov 2023',
+                points: ['Lorem ipsum dolor sit amet consectetur adipisicing elit.']
+        }
+]
 
 const MAX_POSTS = 10
 const allPosts = await getAllPosts()
@@ -107,33 +125,27 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 			)
 		}
 
-		<Section title='Experience'>
-			<Card
-				heading='Lorem Ipsum'
-				subheading='Sit amet consectetur'
-				date='Dec 2022 - Nov 2023'
-				imagePath='/src/assets/about-astro.png'
-				altText='Lorem, ipsum dolor sit'
-				imageClass='h-12 w-auto md:-left-16'
-			>
-				<ul class='ml-4 list-disc text-muted-foreground'>
-					<li>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
-						molestiae laboriosam pariatur!
-
-						<li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
-					</li>
-				</ul>
-			</Card>
-			<Card
-				heading='Lorem Ipsum'
-				subheading='Sit amet consectetur'
-				date='Dec 2022 - Nov 2023'
-				imagePath='/src/assets/about-astro.png'
-				altText='Lorem, ipsum dolor sit'
-				imageClass='h-12 w-auto md:-left-16'
-			/>
-		</Section>
+                <Section title='Experience'>
+                        <ol class='relative flex flex-col pl-6'>
+                                {experiences.map((experience, index) => (
+                                        <Milestone
+                                                title={experience.title}
+                                                subtitle={experience.subtitle}
+                                                period={experience.period}
+                                                imagePath='/src/assets/about-astro.png'
+                                                altText={`${experience.title} logo`}
+                                                isFirst={index === 0}
+                                                isLast={index === experiences.length - 1}
+                                        >
+                                                <ul class='ml-4 list-disc space-y-1'>
+                                                        {experience.points.map((point) => (
+                                                                <li>{point}</li>
+                                                        ))}
+                                                </ul>
+                                        </Milestone>
+                                ))}
+                        </ol>
+                </Section>
 
 		<Section title='Education'>
 			<Card
